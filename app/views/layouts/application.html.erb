@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Airbnb | Hotel rentals, cabins, beach houses and more" %></title>
+    <title>Airbnb | Holiday rentals, cabins, beach houses and more</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= favicon_link_tag "favicon.ico" %>
-    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <%= favicon_link_tag 'favicon.ico' %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
-    <%= yield :head %>
-    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   </head>
 
   <body>
-  <p class="notice"><%= notice %></p>
-       <p class="alert"><%= alert %></p>
-       <% if controller_name !=  "registrations" && controller_name != "sessions" %>
-       <%= render "layouts/header" %>
-       <% end %>
-      <%= yield %>
-    </main>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <% if controller_name != 'registrations' && controller_name != 'sessions' %>
+      <%= render 'layouts/header' %>
+    <% end %>
+    <%= yield %>
   </body>
 </html>
