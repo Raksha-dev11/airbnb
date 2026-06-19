@@ -5,7 +5,7 @@ class CreateReviews < ActiveRecord::Migration[7.2]
       t.integer :cleanliness_rating
       t.integer :accuracy_rating
       t.integer :checkin_rating
-      t.integer :communiation_rating
+      t.integer :communication_rating
       t.integer :location_rating
       t.integer :value_rating
       t.integer :final_rating
