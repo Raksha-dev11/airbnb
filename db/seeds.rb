@@ -1,4 +1,5 @@
-require "open-uri"
+require 'open-uri'
+
 description = <<-DESCRIPTION
 <div>Explore the nature and art oasis at our unique property. The living room, a cozy masterpiece, and the fully equipped kitchen are ideal for cooking and entertaining. Step outside to our garden patio, unwind, and enjoy morning birdsong. Tastefully decorated bedrooms, a powder room, and utility area complete the experience.<br />Note: The property is surrounded by a residential area. Despite initial surroundings, I am sure that, stepping in will fill your mood with joy and happiness.
 </div>
@@ -7,6 +8,52 @@ description = <<-DESCRIPTION
 <h4 class="font-medium" tabindex="-1">Guest Policy</h4>
 <p>Entire Property is yours!! Wish you fun and happy stay!!</p>
 DESCRIPTION
+
+amenities_data = [
+  {name: 'Air conditioning', icon: "air_conditioning.svg"},
+  {name: 'Balcony', icon: "balcony.svg"},
+  {name: 'Bed linen', icon: "bed_linen.svg"},
+  {name: 'Board games', icon: "board_games.svg"},
+  {name: 'Carbon monoxide alarm', icon: "carbon_monoxide_alarm.svg"},
+  {name: 'Coffee maker', icon: "coffee_maker.svg"},
+  {name: 'Cooker', icon: "cooker.svg"},
+  {name: 'Cooking basics', icon: "cooking_basics.svg", description: 'Pots and pans, oil, salt and pepper'},
+  {name: 'Cot', icon: "cot.svg"},
+  {name: 'Dedicated workspace', icon: "dedicated_workspace.svg"},
+  {name: 'Dining table', icon: "dining_table.svg"},
+  {name: 'Dishes and cutlery', icon: "dishes_and_cutlery.svg", description: 'Bowls, chopsticks, plates, cups, etc.'},
+  {name: 'Dishwasher', icon: "dishwasher.svg"},
+  {name: 'Dryer', icon: "dryer.svg"},
+  {name: 'Esssentials', icon: "essentials.svg", description: 'Towels, bed sheets, soap and toilet paper'},
+  {name: 'Fire extinguisher', icon: "fire_extinguisher.svg"},
+  {name: 'First aid kit', icon: "first_aid_kit.svg"},
+  {name: 'Free parking', icon: "free_parking.svg"},
+  {name: 'fridge', icon: "fridge.svg"},
+  {name: 'Garden', icon: "garden.svg", description: 'An open space on the property usually covered in grass'},
+  {name: 'Hair dryer', icon: "hair_dryer.svg"},
+  {name: 'Hangers', icon: "hangers.svg"},
+  {name: 'Heating', icon: "heating.svg"},
+  {name: 'Hot tub', icon: "hot_tub.svg"},
+  {name: 'Hot water', icon: "hot_water.svg"},
+  {name: 'Iron', icon: "iron.svg"},
+  {name: 'Kitchen', icon: "kitchen.svg", description: 'Space where guests can cook their own meals'},
+  {name: 'Lockbox', icon: "lockbox.svg"},
+  {name: 'Microwave', icon: "microwave.svg"},
+  {name: 'Mountain view', icon: "mountain_view.svg"},
+  {name: 'Oven', icon: "oven.svg"},
+  {name: 'Pool table', icon: "pool_table.svg"},
+  {name: 'Private entrance', icon: "private_entrance.svg", description: 'Separate street or building entrance'},
+  {name: 'Private pool', icon: "private_pool.svg" },
+  {name: 'Shampoo', icon: "shampoo.svg"},
+  {name: 'Smoke alarm', icon: "smoke_alarm.svg"},
+  {name: 'TV', icon: "tv.svg"},
+  {name: 'Washing machine', icon: "washing_machine.svg"},
+  {name: 'Wifi', icon: "wifi.svg"},
+]
+
+amenities_data.each do |data|
+  amenity = Amenity.create!(name: data[:name], icon: data[:icon], description: data[:description])
+end
 
 pictures = []
 20.times do 
@@ -65,6 +112,15 @@ end
   property.images.attach(io: File.open("db/images/property_10.png"), filename: property.name)
   property.images.attach(io: File.open("db/images/property_11.png"), filename: property.name)
   property.images.attach(io: File.open("db/images/property_12.png"), filename: property.name)
+
+  amenity_set = Set.new
+  ((10..(amenities_data.length() - 1)).to_a.sample).times do
+    amenity = Amenity.all.sample
+    unless amenity_set.include?(amenity.id)
+      property.amenities << amenity
+      amenity_set << amenity.id
+    end
+  end
 
   ((5..10).to_a.sample).times do
     Review.create!({
