@@ -40,18 +40,19 @@
 
             <dl class="space-y-0">
               <% 5.times do |index| %>
-                <div class="flex items-center text-xs">
-                  <dt class="flex flex-1 items-center">
-                    <p class="w-3 font-medium text-gray-900"><%= (5-index) %><span class="sr-only"> star reviews</span></p>
-                    <div aria-hidden="true" class="ml-1 flex flex-1 items-center">
-                      <div class="relative ml-1 flex-1">
-                        <div class="h-1 rounded-full border border-gray-200 bg-gray-200"></div>
-                        <div style="width: <%= (@overall_rating_counts[(5-index)]) * 100 / property.reviews.count %>%" class="absolute inset-y-0 rounded-full border border-black bg-black"></div>
-                      </div>
-                    </div>
-                  </dt>
-                </div>
-              <% end %>
+  <div class="flex items-center text-xs">
+    <dt class="flex flex-1 items-center">
+      <p class="w-3 font-medium text-gray-900"><%= (5 - index) %><span class="sr-only"> star reviews</span></p>
+      <div aria-hidden="true" class="ml-1 flex flex-1 items-center">
+        <div class="relative ml-1 flex-1">
+          <div class="h-1 rounded-full border border-gray-200 bg-gray-200"></div>
+          <div style="width: <%= (@overall_rating_counts[5 - index] * 100.0 / @property.reviews.count).round(2) %>%"
+               class="absolute inset-y-0 rounded-full border border-black bg-black"></div>
+        </div>
+      </div>
+    </dt>
+  </div>
+<% end %>
             </dl>
           </div>
           
@@ -181,8 +182,17 @@
         <% end %>
       </div>
       <% if (property.reviews.count > 6) %>
-        <button type="button" class="rounded-md bg-white px-4 py-3 text-sm font-medium text-gray-900 text-lg ring-1 ring-inset ring-black hover:bg-gray-50">Show all reviews</button>
+        <button 
+          type="button" 
+          data-controller="reviews"
+          data-action="click->reviews#toggleReviewsModal"
+          class="rounded-md bg-white px-4 py-3 text-sm font-medium text-gray-900 text-lg ring-1 ring-inset ring-black hover:bg-gray-50"
+        >
+          Show all <%= property.reviews.count %> reviews
+        </button>
       <% end %>
     </div>
   </section>
 </div>
+
+<%= render 'shared/modal', modalTriggerId: "reviews", content: 'properties/reviews_modal', content_params: {property: property} %>
